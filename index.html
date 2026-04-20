@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Step Generator Galaxy Pro</title>
+<title>Step Generator Pro</title>
 
 <style>
 html, body {
@@ -24,10 +24,27 @@ canvas {
     z-index: -1;
 }
 
-h1 {
+/* Header style with circular image and text alignment */
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 20px;
+    gap: 15px;
+}
+
+h1 {
+    margin: 0;
     color: #38bdf8;
     text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+.header-icon {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 50%; 
+    border: 2px solid rgba(56, 189, 248, 0.3);
 }
 
 .container {
@@ -115,8 +132,27 @@ th {
 footer {
     margin-top: 30px;
     padding-bottom: 20px;
-    color: #94a3b8;
-    font-size: 13px;
+    color: #ffffff; /* টেক্সটের রঙ সাদা করা হয়েছে */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ডেভেলপার টেক্সট স্টাইল - Bold এবং বড় */
+.dev-text {
+    font-size: 18px; /* সাইজ বাড়ানো হয়েছে */
+    font-weight: 800; /* বোল্ড করা হয়েছে */
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.dev-image {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid rgba(255,255,255,0.5);
 }
 
 .floating-btn {
@@ -155,7 +191,10 @@ footer {
 
 <canvas id="starsCanvas"></canvas>
 
-<h1>🌌 Step Generator Pro</h1>
+<div class="header-container">
+    <img src="https://i.supaimg.com/bd62b939-bede-4569-8006-ec143f41d2d7/01bf8344-0b5b-4dca-b861-8f6a2dace015.png" alt="Step Pro Icon" class="header-icon">
+    <h1>Step Generator Pro</h1>
+</div>
 
 <div class="container">
     <div class="card">
@@ -173,7 +212,8 @@ footer {
 </div>
 
 <footer>
-    👨‍💻 Developer: Tanvir Boss
+    <img src="https://i.supaimg.com/bd62b939-bede-4569-8006-ec143f41d2d7/532211f1-9f43-4a22-8471-d3a0bb9e9b1e.jpg" alt="Developer Avatar" class="dev-image">
+    <span class="dev-text">Developer: Tanvir Boss</span>
 </footer>
 
 <div class="floating-btn" onclick="openChat()">
@@ -246,7 +286,6 @@ function generate() {
     copyBtn.style.display = "inline-block";
 }
 
-// --- Reset Function ---
 function resetForm() {
     document.getElementById("amount").value = "";
     document.getElementById("steps").value = "";
@@ -254,7 +293,6 @@ function resetForm() {
     document.getElementById("copyBtn").style.display = "none";
 }
 
-// --- Advanced Copy Function ---
 function copyToClipboard() {
     const table = document.querySelector("table");
     const totalDiv = document.querySelector(".total");
@@ -269,7 +307,6 @@ function copyToClipboard() {
     });
     textToCopy += "\n" + totalDiv.innerText;
 
-    // Modern Method
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(textToCopy).then(() => {
             alert("✅ Copied to clipboard!");
@@ -279,7 +316,6 @@ function copyToClipboard() {
     }
 }
 
-// Fallback for non-https or older browsers
 function fallbackCopy(text) {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -294,9 +330,7 @@ function fallbackCopy(text) {
     document.body.removeChild(textArea);
 }
 
-// Keyboard Support
 document.addEventListener("keyup", (e) => { if (e.key === "Enter") generate(); });
-
 function openChat() { window.open("https://t.me/THIS_IS_BOSS", "_blank"); }
 </script>
 
