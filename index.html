@@ -24,7 +24,40 @@ canvas {
     z-index: -1;
 }
 
-/* Header style with circular image and text alignment */
+/* 🔥 TOP BUTTONS */
+.top-auth-buttons {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 6px;
+    z-index: 999;
+}
+
+.top-auth-buttons button {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.top-auth-buttons button:first-child {
+    background: linear-gradient(135deg, #6366f1, #3b82f6);
+}
+
+.top-auth-buttons button:last-child {
+    background: linear-gradient(135deg, #22c55e, #14b8a6);
+}
+
+.top-auth-buttons button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* HEADER */
 .header-container {
     display: flex;
     justify-content: center;
@@ -132,17 +165,16 @@ th {
 footer {
     margin-top: 30px;
     padding-bottom: 20px;
-    color: #ffffff; /* টেক্সটের রঙ সাদা করা হয়েছে */
+    color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
 }
 
-/* ডেভেলপার টেক্সট স্টাইল - Bold এবং বড় */
 .dev-text {
-    font-size: 18px; /* সাইজ বাড়ানো হয়েছে */
-    font-weight: 800; /* বোল্ড করা হয়েছে */
+    font-size: 18px;
+    font-weight: 800;
     letter-spacing: 0.5px;
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }
@@ -191,8 +223,13 @@ footer {
 
 <canvas id="starsCanvas"></canvas>
 
+<div class="top-auth-buttons">
+    <button onclick="openRegister()">Register</button>
+    <button onclick="openLogin()">Login</button>
+</div>
+
 <div class="header-container">
-    <img src="https://i.supaimg.com/bd62b939-bede-4569-8006-ec143f41d2d7/01bf8344-0b5b-4dca-b861-8f6a2dace015.png" alt="Step Pro Icon" class="header-icon">
+    <img src="https://i.supaimg.com/bd62b939-bede-4569-8006-ec143f41d2d7/01bf8344-0b5b-4dca-b861-8f6a2dace015.png" class="header-icon">
     <h1>Step Generator Pro</h1>
 </div>
 
@@ -212,24 +249,35 @@ footer {
 </div>
 
 <footer>
-    <img src="https://i.supaimg.com/bd62b939-bede-4569-8006-ec143f41d2d7/532211f1-9f43-4a22-8471-d3a0bb9e9b1e.jpg" alt="Developer Avatar" class="dev-image">
+    <img src="https://i.supaimg.com/bd62b939-bede-4569-8006-ec143f41d2d7/532211f1-9f43-4a22-8471-d3a0bb9e9b1e.jpg" class="dev-image">
     <span class="dev-text">Developer: Tanvir Boss</span>
 </footer>
 
 <div class="floating-btn" onclick="openChat()">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" 
-         alt="Telegram" 
-         style="width:40px; height:40px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" style="width:40px; height:40px;">
     <div class="tooltip">Contact Developer</div>
 </div>
 
 <script>
-// --- Background Stars Animation ---
+function openRegister() {
+    window.open("https://bdwin24.biz?inviteCode=NW3KPKN&from=web", "_blank");
+}
+
+function openLogin() {
+    window.open("http://1BDWin24.com", "_blank");
+}
+
+// stars logic
 const canvas = document.getElementById("starsCanvas");
 const ctx = canvas.getContext("2d");
-function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
+
 let stars = [];
 for (let i = 0; i < 100; i++) {
     stars.push({
@@ -240,22 +288,27 @@ for (let i = 0; i < 100; i++) {
         vy: Math.random() * 0.5 - 0.25
     });
 }
+
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stars.forEach(star => {
-        star.x += star.vx; star.y += star.vy;
+        star.x += star.vx;
+        star.y += star.vy;
+
         if (star.x < 0 || star.x > canvas.width) star.vx *= -1;
         if (star.y < 0 || star.y > canvas.height) star.vy *= -1;
+
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fillStyle = "white";
         ctx.fill();
     });
+
     requestAnimationFrame(animate);
 }
 animate();
 
-// --- Main Generator Function ---
+// generator logic
 function generate() {
     let amount = parseFloat(document.getElementById("amount").value);
     let steps = parseInt(document.getElementById("steps").value);
@@ -263,7 +316,7 @@ function generate() {
     let copyBtn = document.getElementById("copyBtn");
 
     if (isNaN(amount) || isNaN(steps) || amount <= 0 || steps <= 0) {
-        result.innerHTML = "<p style='color: #ef4444; margin-top:15px;'>❌ Please enter valid values</p>";
+        result.innerHTML = "<p style='color:red;'>❌ Invalid input</p>";
         copyBtn.style.display = "none";
         return;
     }
@@ -271,6 +324,7 @@ function generate() {
     let ratio = 2;
     let first = amount * (ratio - 1) / (Math.pow(ratio, steps) - 1);
     let total = 0;
+
     let html = "<table><tr><th>Step</th><th>Amount</th></tr>";
 
     for (let i = 0; i < steps; i++) {
@@ -293,45 +347,43 @@ function resetForm() {
     document.getElementById("copyBtn").style.display = "none";
 }
 
+// Fixed Copy Function (Works everywhere)
 function copyToClipboard() {
     const table = document.querySelector("table");
     const totalDiv = document.querySelector(".total");
+
     if (!table || !totalDiv) return;
 
-    let textToCopy = "--- Step List ---\n";
+    let text = "--- Step List ---\n";
     const rows = table.querySelectorAll("tr");
-    rows.forEach((row, index) => {
-        if (index === 0) return;
+
+    rows.forEach((row, i) => {
+        if (i === 0) return;
         const cols = row.querySelectorAll("td");
-        textToCopy += `${cols[0].innerText}: ${cols[1].innerText}\n`;
+        if (cols.length >= 2) {
+            text += `${cols[0].innerText}: ${cols[1].innerText}\n`;
+        }
     });
-    textToCopy += "\n" + totalDiv.innerText;
 
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(textToCopy).then(() => {
-            alert("✅ Copied to clipboard!");
-        }).catch(() => fallbackCopy(textToCopy));
-    } else {
-        fallbackCopy(textToCopy);
-    }
-}
+    text += "\n" + totalDiv.innerText;
 
-function fallbackCopy(text) {
+    // Fallback logic for all browsers/protocols
     const textArea = document.createElement("textarea");
     textArea.value = text;
     document.body.appendChild(textArea);
     textArea.select();
     try {
         document.execCommand('copy');
-        alert("✅ Copied to clipboard!");
+        alert("Copied to clipboard!");
     } catch (err) {
-        alert("❌ Error: Use a proper browser to copy.");
+        alert("Unable to copy");
     }
     document.body.removeChild(textArea);
 }
 
-document.addEventListener("keyup", (e) => { if (e.key === "Enter") generate(); });
-function openChat() { window.open("https://t.me/THIS_IS_BOSS", "_blank"); }
+function openChat() {
+    window.open("https://t.me/THIS_IS_BOSS", "_blank");
+}
 </script>
 
 </body>
