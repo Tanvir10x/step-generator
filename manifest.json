@@ -1,0 +1,16 @@
+{
+  "name": "Step Generator Pro",
+  "short_name": "StepGen",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0b0f2a",
+  "theme_color": "#0b0f2a",
+  "icons": [
+    {
+      "src": "https://i.supaimg.com/bd62b939-bede-4569-8006-ec143f41d2d7/01bf8344-0b5b-4dca-b861-8f6a2dace015.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
