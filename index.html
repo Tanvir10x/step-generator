@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Step Generator Pro</title>
 
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b0f2a">
+<link rel="apple-touch-icon" href="https://i.supaimg.com/bd62b939-bede-4569-8006-ec143f41d2d7/01bf8344-0b5b-4dca-b861-8f6a2dace015.png">
+
 <style>
 html, body {
     margin: 0;
@@ -259,6 +263,13 @@ footer {
 </div>
 
 <script>
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => console.log('Service Worker registration failed:', err));
+  });
+}
+
 function openRegister() {
     window.open("https://bdwin24.biz?inviteCode=NW3KPKN&from=web", "_blank");
 }
@@ -367,7 +378,6 @@ function copyToClipboard() {
 
     text += "\n" + totalDiv.innerText;
 
-    // Fallback logic for all browsers/protocols
     const textArea = document.createElement("textarea");
     textArea.value = text;
     document.body.appendChild(textArea);
