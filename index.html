@@ -7,6 +7,8 @@
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0b0f2a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="https://i.supaimg.com/bd62b939-bede-4569-8006-ec143f41d2d7/01bf8344-0b5b-4dca-b861-8f6a2dace015.png">
 
 <style>
@@ -28,7 +30,7 @@ canvas {
     z-index: -1;
 }
 
-/* 🔥 TOP BUTTONS */
+/* TOP AUTH BUTTONS */
 .top-auth-buttons {
     position: fixed;
     top: 10px;
@@ -48,18 +50,8 @@ canvas {
     transition: 0.3s;
 }
 
-.top-auth-buttons button:first-child {
-    background: linear-gradient(135deg, #6366f1, #3b82f6);
-}
-
-.top-auth-buttons button:last-child {
-    background: linear-gradient(135deg, #22c55e, #14b8a6);
-}
-
-.top-auth-buttons button:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
-}
+.top-auth-buttons button:first-child { background: linear-gradient(135deg, #6366f1, #3b82f6); }
+.top-auth-buttons button:last-child { background: linear-gradient(135deg, #22c55e, #14b8a6); }
 
 /* HEADER */
 .header-container {
@@ -70,11 +62,7 @@ canvas {
     gap: 15px;
 }
 
-h1 {
-    margin: 0;
-    color: #38bdf8;
-    text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-}
+h1 { margin: 0; color: #38bdf8; text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
 
 .header-icon {
     width: 65px;
@@ -84,9 +72,7 @@ h1 {
     border: 2px solid rgba(56, 189, 248, 0.3);
 }
 
-.container {
-    padding: 20px;
-}
+.container { padding: 20px; }
 
 .card {
     background: rgba(255,255,255,0.08);
@@ -108,10 +94,6 @@ input {
     background: rgba(0,0,0,0.3);
     color: white;
     outline: none;
-}
-
-input:focus {
-    border-color: #22c55e;
 }
 
 .button-group {
@@ -136,60 +118,84 @@ button {
 button.reset { background: #ef4444; }
 button.copy { background: #3b82f6; }
 
-button:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
+/* Prediction System Button */
+button.predict-btn { 
+    background: linear-gradient(135deg, #f59e0b, #d97706); 
+    width: 80%;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+    margin-bottom: 20px;
 }
 
-table {
-    margin: 20px auto;
-    border-collapse: collapse;
-    width: 100%;
+/* Prediction Result Box */
+#predict-display {
+    margin: 15px auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 15px;
+    border: 1px solid rgba(245, 158, 11, 0.6);
+    display: none;
+    width: 90%;
+    max-width: 340px;
 }
 
-td, th {
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 12px;
-}
+.market-label { color: #38bdf8; font-weight: bold; font-size: 15px; }
+.timer-label { color: #ffcc00; font-size: 14px; font-family: monospace; }
+.p-number { color: #f59e0b; font-weight: bold; font-size: 17px; margin: 10px 0; }
 
-th {
-    background: rgba(34, 197, 94, 0.2);
-    color: #4ade80;
-}
-
-.total {
+/* The Dynamic Result Container */
+.result-slot {
+    min-height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
     margin-top: 15px;
-    font-size: 20px;
-    color: #4ade80;
-    font-weight: bold;
-    border-top: 1px solid rgba(255,255,255,0.2);
     padding-top: 10px;
 }
 
+.show-res-btn {
+    background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+    padding: 10px 35px;
+    font-size: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.5);
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+
+.p-result { 
+    font-size: 28px; 
+    font-weight: 900; 
+    transition: 0.5s;
+}
+
+/* FOOTER */
 footer {
-    margin-top: 30px;
+    margin-top: 40px;
     padding-bottom: 20px;
-    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dev-container {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
+    margin-top: 10px;
 }
 
-.dev-text {
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-}
+.dev-text { font-size: 18px; font-weight: 800; color: #ffffff; }
+.dev-image { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 1px solid white; }
 
-.dev-image {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1.5px solid rgba(255,255,255,0.5);
-}
+/* TABLES & OTHER */
+table { margin: 20px auto; border-collapse: collapse; width: 100%; }
+td, th { border: 1px solid rgba(255,255,255,0.1); padding: 12px; }
+th { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+.total { margin-top: 15px; font-size: 20px; color: #4ade80; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px; }
 
 .floating-btn {
     position: fixed;
@@ -203,22 +209,6 @@ footer {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
-}
-
-.tooltip {
-    position: absolute;
-    bottom: 75px;
-    right: 0;
-    background: black;
-    padding: 5px 10px;
-    border-radius: 5px;
-    display: none;
-    white-space: nowrap;
-}
-
-.floating-btn:hover .tooltip {
-    display: block;
 }
 </style>
 </head>
@@ -253,73 +243,148 @@ footer {
 </div>
 
 <footer>
-    <img src="https://i.supaimg.com/bd62b939-bede-4569-8006-ec143f41d2d7/532211f1-9f43-4a22-8471-d3a0bb9e9b1e.jpg" class="dev-image">
-    <span class="dev-text">Developer: Tanvir Boss</span>
+    <button class="predict-btn" onclick="openPredictBox()">Prediction System</button>
+
+    <div id="predict-display">
+        <div class="market-label">Win Go 1 Min</div>
+        <div class="timer-label" id="realtime-seconds">Next Market: 00s</div>
+        <div class="p-number" id="period-num">Period: --</div>
+        
+        <div class="result-slot" id="main-result-area">
+            <button class="show-res-btn" id="click-result-btn" onclick="triggerRealisticAnalysis()">Result</button>
+            <div class="p-result" id="prediction-text"></div>
+        </div>
+    </div>
+
+    <div class="dev-container">
+        <img src="https://i.supaimg.com/bd62b939-bede-4569-8006-ec143f41d2d7/532211f1-9f43-4a22-8471-d3a0bb9e9b1e.jpg" class="dev-image">
+        <span class="dev-text">Developer: Tanvir Boss</span>
+    </div>
 </footer>
 
 <div class="floating-btn" onclick="openChat()">
     <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" style="width:40px; height:40px;">
-    <div class="tooltip">Contact Developer</div>
 </div>
 
 <script>
-// PWA Service Worker Registration
+// --- PWA SERVICE WORKER REGISTRATION ---
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(err => console.log('Service Worker registration failed:', err));
+    navigator.serviceWorker.register('./sw.js').then(reg => {
+      console.log('SW Registered!', reg.scope);
+    }).catch(err => {
+      console.log('SW Registration failed:', err);
+    });
   });
 }
 
-function openRegister() {
-    window.open("https://bdwin24.biz?inviteCode=NW3KPKN&from=web", "_blank");
+// --- TANVIR BOSS: AUTOMATIC SYNC LOGIC (Reset at 06:00 AM Daily) ---
+let activePeriod = "";
+let lockedData = null;
+
+function updateClock() {
+    const now = new Date();
+    
+    let year = now.getFullYear();
+    let month = (now.getMonth() + 1).toString().padStart(2, '0');
+    let day = now.getDate().toString().padStart(2, '0');
+    
+    const currentHour = now.getHours();
+    const currentMin = now.getMinutes();
+    const currentSec = now.getSeconds();
+
+    let effectiveDate = new Date(now);
+    if (currentHour < 6) {
+        effectiveDate.setDate(now.getDate() - 1);
+    }
+    
+    const effYear = effectiveDate.getFullYear();
+    const effMonth = (effectiveDate.getMonth() + 1).toString().padStart(2, '0');
+    const effDay = effectiveDate.getDate().toString().padStart(2, '0');
+    const dateStr = `${effYear}${effMonth}${effDay}`;
+
+    document.getElementById("realtime-seconds").innerHTML = `Next Market: ${(60 - currentSec).toString().padStart(2, '0')}s`;
+
+    let startOfPeriod = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0);
+    if (currentHour < 6) {
+        startOfPeriod.setDate(now.getDate() - 1);
+    }
+
+    const minutesPassed = Math.floor((now - startOfPeriod) / 60000);
+    const periodSequence = 10001 + minutesPassed; 
+
+    const currentP = `${dateStr}1000${periodSequence}`;
+
+    if (activePeriod !== currentP) {
+        activePeriod = currentP;
+        lockedData = null; 
+        document.getElementById("period-num").innerHTML = "Period: " + activePeriod;
+        document.getElementById("prediction-text").innerHTML = ""; 
+        document.getElementById("click-result-btn").style.display = "block"; 
+    }
+}
+setInterval(updateClock, 1000);
+updateClock(); 
+
+// --- TANVIR BOSS: PREDICTION ACCESS WITH UID VERIFICATION ---
+async function openPredictBox() {
+    const box = document.getElementById("predict-display");
+    
+    // যদি বক্স অলরেডি খোলা থাকে, তবে বন্ধ হবে
+    if (box.style.display === "block") {
+        box.style.display = "none";
+        return;
+    }
+
+    // UID ইনপুট নেওয়ার প্রম্পট
+    let userUID = prompt("Please Enter Your UID to access Prediction:");
+    
+    if (userUID === null || userUID === "") {
+        alert("UID is required!");
+        return;
+    }
+
+    // ভার্সেল এপিআই চেক
+    try {
+        const response = await fetch(`/api/index.php?uid=${userUID}`);
+        const data = await response.json();
+
+        if (data.status === "success") {
+            box.style.display = "block";
+        } else {
+            alert("Invalid UID! Please register through our link.");
+        }
+    } catch (error) {
+        console.error("Verification Error:", error);
+        alert("Server error. Please try again later.");
+    }
 }
 
-function openLogin() {
-    window.open("http://1BDWin24.com", "_blank");
+function triggerRealisticAnalysis() {
+    const resDiv = document.getElementById("prediction-text");
+    const btn = document.getElementById("click-result-btn");
+    
+    btn.style.display = "none"; 
+    resDiv.style.color = "#38bdf8";
+    resDiv.style.fontSize = "18px";
+    resDiv.innerHTML = "Analyzing Market Chart...";
+
+    setTimeout(() => {
+        if (!lockedData) {
+            const types = ["BIG", "SMALL"];
+            const colors = ["GREEN", "RED"];
+            lockedData = {
+                val: types[Math.floor(Math.random() * types.length)],
+                col: colors[Math.floor(Math.random() * colors.length)]
+            };
+        }
+        resDiv.style.fontSize = "28px";
+        resDiv.innerHTML = `${lockedData.val} - ${lockedData.col}`;
+        resDiv.style.color = (lockedData.col === "GREEN") ? "#4ade80" : "#ef4444";
+    }, 2000);
 }
 
-// stars logic
-const canvas = document.getElementById("starsCanvas");
-const ctx = canvas.getContext("2d");
-
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-let stars = [];
-for (let i = 0; i < 100; i++) {
-    stars.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        size: Math.random() * 2,
-        vx: Math.random() * 0.5 - 0.25,
-        vy: Math.random() * 0.5 - 0.25
-    });
-}
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    stars.forEach(star => {
-        star.x += star.vx;
-        star.y += star.vy;
-
-        if (star.x < 0 || star.x > canvas.width) star.vx *= -1;
-        if (star.y < 0 || star.y > canvas.height) star.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = "white";
-        ctx.fill();
-    });
-
-    requestAnimationFrame(animate);
-}
-animate();
-
-// generator logic
+// --- GENERATOR LOGIC ---
 function generate() {
     let amount = parseFloat(document.getElementById("amount").value);
     let steps = parseInt(document.getElementById("steps").value);
@@ -332,21 +397,16 @@ function generate() {
         return;
     }
 
-    let ratio = 2;
-    let first = amount * (ratio - 1) / (Math.pow(ratio, steps) - 1);
+    let first = amount / (Math.pow(2, steps) - 1);
+    let html = "<table><tr><th>Step</th><th>Amount</th></tr>";
     let total = 0;
 
-    let html = "<table><tr><th>Step</th><th>Amount</th></tr>";
-
     for (let i = 0; i < steps; i++) {
-        let value = first * Math.pow(ratio, i);
-        total += value;
-        html += `<tr><td>Step ${i+1}</td><td>${value.toFixed(2)} ৳</td></tr>`;
+        let val = first * Math.pow(2, i);
+        total += val;
+        html += `<tr><td>Step ${i+1}</td><td>${val.toFixed(2)} ৳</td></tr>`;
     }
-
-    html += "</table>";
-    html += `<div class="total">Total: ${total.toFixed(2)} ৳</div>`;
-
+    html += "</table><div class='total'>Total: " + total.toFixed(2) + " ৳</div>";
     result.innerHTML = html;
     copyBtn.style.display = "inline-block";
 }
@@ -358,42 +418,37 @@ function resetForm() {
     document.getElementById("copyBtn").style.display = "none";
 }
 
-// Fixed Copy Function (Works everywhere)
 function copyToClipboard() {
     const table = document.querySelector("table");
     const totalDiv = document.querySelector(".total");
+    if(!table) return;
+    let text = "Step List:\n" + [...table.querySelectorAll("tr")].slice(1).map(r => r.innerText.replace(/\t/g, ": ")).join("\n") + "\n" + totalDiv.innerText;
+    const el = document.createElement('textarea');
+    el.value = text; document.body.appendChild(el); el.select();
+    document.execCommand('copy'); document.body.removeChild(el);
+    alert("Copied!");
+}
 
-    if (!table || !totalDiv) return;
+function openRegister() { window.open("https://bdwin24.biz?inviteCode=NW3KPKN&from=web", "_blank"); }
+function openLogin() { window.open("http://1BDWin24.com", "_blank"); }
+function openChat() { window.open("https://t.me/THIS_IS_BOSS", "_blank"); }
 
-    let text = "--- Step List ---\n";
-    const rows = table.querySelectorAll("tr");
-
-    rows.forEach((row, i) => {
-        if (i === 0) return;
-        const cols = row.querySelectorAll("td");
-        if (cols.length >= 2) {
-            text += `${cols[0].innerText}: ${cols[1].innerText}\n`;
-        }
+// Star Background
+const canvas = document.getElementById("starsCanvas");
+const ctx = canvas.getContext("2d");
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize(); window.onresize = resize;
+let stars = Array(100).fill().map(() => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*2, vx: Math.random()*0.5-0.25, vy: Math.random()*0.5-0.25 }));
+function anim() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s => {
+        s.x+=s.vx; s.y+=s.vy;
+        if(s.x<0||s.x>canvas.width) s.vx*=-1; if(s.y<0||s.y>canvas.height) s.vy*=-1;
+        ctx.beginPath(); ctx.arc(s.x,s.y,s.size,0,Math.PI*2); ctx.fillStyle="white"; ctx.fill();
     });
-
-    text += "\n" + totalDiv.innerText;
-
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    try {
-        document.execCommand('copy');
-        alert("Copied to clipboard!");
-    } catch (err) {
-        alert("Unable to copy");
-    }
-    document.body.removeChild(textArea);
+    requestAnimationFrame(anim);
 }
-
-function openChat() {
-    window.open("https://t.me/THIS_IS_BOSS", "_blank");
-}
+anim();
 </script>
 
 </body>
