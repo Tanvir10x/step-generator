@@ -1,26 +1,50 @@
 <?php
-header('Content-Type: application/json');
+// Tanvir Boss: User Verification API
+header("Content-Type: application/json");
 
-// ইউজার যে UID পাঠাবে সেটা রিসিভ করা
-$uid = isset($_GET['uid']) ? $_GET['uid'] : '';
+// এখানে আপনার ২০ জন মেম্বারের UID বসাবেন। 
+// শুধু উদ্ধৃতি চিহ্নের (" ") মাঝখানের লেখাগুলো পরিবর্তন করবেন।
+$allowed_uids = [
+    "149220", 
+    "188124", 
+    "188851", 
+    "188899", 
+    "184365", 
+    "186383", 
+    "205064", 
+    "194273", 
+    "151649", 
+    "177121", 
+    "170493", 
+    "190257", 
+    "183784", 
+    "228851", 
+    "194552", 
+    "BOSS", 
+    "BOSS", 
+    "BOSS", 
+    "BOSS", 
+    "BOSS"
+];
 
-if (empty($uid)) {
+// ইনপুট থেকে UID নেওয়া
+$user_uid = isset($_GET['uid']) ? $_GET['uid'] : '';
+
+// চেকিং লজিক
+if (empty($user_uid)) {
     echo json_encode([
         "status" => "error",
-        "message" => "Please provide a valid UID"
+        "message" => "UID is required"
     ]);
-    exit;
+} elseif (in_array($user_uid, $allowed_uids)) {
+    echo json_encode([
+        "status" => "success",
+        "message" => "Access Granted"
+    ]);
+} else {
+    echo json_encode([
+        "status" => "error",
+        "message" => "Invalid UID! Register via our link first."
+    ]);
 }
-
-// প্রেডিকশন লজিক (আপনি চাইলে পরে এটা পরিবর্তন করতে পারেন)
-$results = ['Big', 'Small', 'Red', 'Green'];
-$prediction = $results[array_rand($results)];
-
-// রেজাল্ট পাঠানো
-echo json_encode([
-    "status" => "success",
-    "uid" => $uid,
-    "prediction" => $prediction,
-    "time" => date("h:i:s A")
-]);
 ?>
