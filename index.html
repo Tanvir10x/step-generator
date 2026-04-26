@@ -278,32 +278,41 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// --- TANVIR BOSS: AUTOMATIC SYNC LOGIC (UTC+4 SYNC) ---
+// --- TANVIR BOSS: AUTOMATIC SYNC LOGIC (Reset at 06:00 AM Daily) ---
 let activePeriod = "";
 let lockedData = null;
 
 function updateClock() {
     const now = new Date();
-    // UTC+4 টাইমজোন সেট করা (বাংলাদেশ থেকে ২ ঘণ্টা পিছিয়ে)
-    const utc4Time = new Date(now.getTime() + (4 * 60 * 60 * 1000) + (now.getTimezoneOffset() * 60000));
     
-    const year = utc4Time.getFullYear();
-    const month = (utc4Time.getMonth() + 1).toString().padStart(2, '0');
-    const day = utc4Time.getDate().toString().padStart(2, '0');
-    const dateStr = `${year}${month}${day}`;
+    let year = now.getFullYear();
+    let month = (now.getMonth() + 1).toString().padStart(2, '0');
+    let day = now.getDate().toString().padStart(2, '0');
+    
+    const currentHour = now.getHours();
+    const currentMin = now.getMinutes();
+    const currentSec = now.getSeconds();
 
-    const currentSec = utc4Time.getSeconds();
+    let effectiveDate = new Date(now);
+    if (currentHour < 6) {
+        effectiveDate.setDate(now.getDate() - 1);
+    }
+    
+    const effYear = effectiveDate.getFullYear();
+    const effMonth = (effectiveDate.getMonth() + 1).toString().padStart(2, '0');
+    const effDay = effectiveDate.getDate().toString().padStart(2, '0');
+    const dateStr = `${effYear}${effMonth}${effDay}`;
+
     document.getElementById("realtime-seconds").innerHTML = `Next Market: ${(60 - currentSec).toString().padStart(2, '0')}s`;
 
-    // পিরিয়ড ক্যালকুলেশন: দিনে অতিক্রান্ত মিনিট
-    const startOfDay = new Date(utc4Time.getFullYear(), utc4Time.getMonth(), utc4Time.getDate());
-    const minutesPassed = Math.floor((utc4Time - startOfDay) / 60000);
-    
-    // আপনার ৯:৫০ AM এ ১০৩৫১ পিরিয়ড অনুযায়ী ক্যালকুলেশন (অফসেট: ৭৬১)
-    // সিকোয়েন্স = ৯৫০০ + মিনিট + অফসেট
-    const periodSequence = 10000 + minutesPassed - 239; 
+    let startOfPeriod = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0);
+    if (currentHour < 6) {
+        startOfPeriod.setDate(now.getDate() - 1);
+    }
 
-    // আপনার কাঙ্ক্ষিত ফরম্যাট: তারিখ + 1000 + পিরিয়ড সিকোয়েন্স
+    const minutesPassed = Math.floor((now - startOfPeriod) / 60000);
+    const periodSequence = 10001 + minutesPassed; 
+
     const currentP = `${dateStr}1000${periodSequence}`;
 
     if (activePeriod !== currentP) {
@@ -317,9 +326,38 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock(); 
 
-function openPredictBox() {
+// --- TANVIR BOSS: PREDICTION ACCESS WITH UID VERIFICATION ---
+async function openPredictBox() {
     const box = document.getElementById("predict-display");
-    box.style.display = (box.style.display === "block") ? "none" : "block";
+    
+    // যদি বক্স অলরেডি খোলা থাকে, তবে বন্ধ হবে
+    if (box.style.display === "block") {
+        box.style.display = "none";
+        return;
+    }
+
+    // UID ইনপুট নেওয়ার প্রম্পট
+    let userUID = prompt("Please Enter Your UID to access Prediction:");
+    
+    if (userUID === null || userUID === "") {
+        alert("UID is required!");
+        return;
+    }
+
+    // ভার্সেল এপিআই চেক
+    try {
+        const response = await fetch(`/api/index.php?uid=${userUID}`);
+        const data = await response.json();
+
+        if (data.status === "success") {
+            box.style.display = "block";
+        } else {
+            alert("Invalid UID! Please register through our link.");
+        }
+    } catch (error) {
+        console.error("Verification Error:", error);
+        alert("Server error. Please try again later.");
+    }
 }
 
 function triggerRealisticAnalysis() {
@@ -383,6 +421,7 @@ function resetForm() {
 function copyToClipboard() {
     const table = document.querySelector("table");
     const totalDiv = document.querySelector(".total");
+    if(!table) return;
     let text = "Step List:\n" + [...table.querySelectorAll("tr")].slice(1).map(r => r.innerText.replace(/\t/g, ": ")).join("\n") + "\n" + totalDiv.innerText;
     const el = document.createElement('textarea');
     el.value = text; document.body.appendChild(el); el.select();
